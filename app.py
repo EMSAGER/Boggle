@@ -11,7 +11,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 app.route('/')
 def load_gameboard():
-    """Create boardgame & start session for the game plays"""
+    """Create boardgame & start a new session for the game plays"""
     board = boggle_game.make_board()
     session['board'] = boggle_game
-    return render_template('home.html', board=board)
+    return render_template('index.html', board=board)

@@ -1,21 +1,23 @@
 {% extends "base.html" %}
-{% block title %}home page{% endblock %}
-
-
+{% block title %}home{% endblock %}
 {% block content %}
+
 <h1>Boggle Game</h1>
-<p>Instructions: The goal of the game is to get the highest point total. To gain points, players create words from a random assortment of letters in a 5x5 grid. Words can be created from adjacent letters – that is, letters which are horizontal or vertical neighbors of each other as well as diagonals. The letters must connect to each other in the proper sequence to spell the word correctly. This means that the next letter in the word can be above, below, left, or right of the previous letter in the word (excluding any letters previously used to construct the word).</p>
+<div class="container" id="INSTRUCTIONS">
+    <p>Instructions: The goal of the game is to get the highest point total. To gain points, players create words from a random assortment of letters in a 5x5 grid. Words can be created from adjacent letters that is, letters which are horizontal or vertical neighbors of each other as well as diagonals. The letters must connect to each other in the proper sequence to spell the word correctly. This means that the next letter in the word can be above, below, left, or right of the previous letter in the word (excluding any letters previously used to construct the word).</p>
+</div>
+
     <!-- to create a board game a table will need to be used  -->
-<div class="container" id="boggle">
+<div class="container" id="BOGGLE">
     <table class="table table-bordered table-center BOARD">
         <!-- there will not be a table head. we just need the body and rows -->
         <tbody>
             <!-- insert a loop that will create rows of the table -->
             {%for row in board%}
-            <tr class="ROW">
+            <tr class="ROW text-center">
                 <!-- insert a loop that will create cells for each row -->
                 {% for cell in row %}
-                <td class="CELL">
+                <td class="CELL text-center">
                     {{cell}}
                 </td>
                 {% endfor %}
@@ -23,6 +25,13 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<div class="container" id="FORM">
+    <form action="/answer">
+        <input type="text" placeholder="Enter your guess!">
+        <button>Submit!</button>
+    </form>
 
 </div>
 

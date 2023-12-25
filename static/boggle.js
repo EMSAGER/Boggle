@@ -3,24 +3,28 @@ class BoggleGame {
     /* make a new game at this DOM id */
   
     constructor(boardId) {
-
-
       this.words = new Set();
       this.board = $("#" + boardId);
+        // post a score
+      this.score = 0;
 
       $(".add-word", this.board).on("submit", this.handleSubmit.bind(this));
     }
   
-    /* show word in list of words */
+    //show word on front end --- add to a list and append 
   
     showWord(word) {
       $(".words", this.board).append($("<li>", { text: word }));
     }
-        /* show a status message */
+
+    // show score
+    showScore(){
+      $(".score", this.board).text(this.score);
+    }
   
-    /* show a submission status message --how will the code's response.data.result display on front end?*/
+    // show a submission status message --how will the code's response.data.result display on front end?
     
-    displayMessage(msg){
+    showStatus(msg){
         $(".msg", this.board)
             .text(msg);
         }
@@ -36,7 +40,7 @@ class BoggleGame {
       if (!word) return;
   
       if (this.words.has(word)) {
-        this.displayMessage(`Already found ${word}.`);
+        this.showStatus(`Already found ${word}.`);
         return;
       }
   
@@ -45,14 +49,17 @@ class BoggleGame {
       if (resp.data.result === "not-word") {
         
         //show a front end message
-        this.displayMessage(`${word} is not a valid English word`);
+        this.showStatus(`${word} is not a valid English word`);
   
       } else if (resp.data.result === "not-on-board") {
-        this.displayMessage(`${word} is not a a valid word on this board.`);
+        this.showStatus(`${word} is not a a valid word on this board.`);
     
       } else {
         this.showWord(word);
-        this.displayMessage(`Added: ${word}.`);
+        this.showStatus(`Added: ${word}.`);
+        this.score += word.length;
+        this.showScore();
+        this.words.add(word);
       }
   
       $word.val("").focus();

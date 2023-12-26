@@ -2,11 +2,17 @@
 class BoggleGame {
     /* make a new game at this DOM id */
   
-    constructor(boardId) {
+    constructor(boardId, secs=60) {
       this.words = new Set();
       this.board = $("#" + boardId);
         // post a score
       this.score = 0;
+        //add a timer
+      this.secs = secs;
+      this.showTimer();
+
+      //show visual passage of time
+      this.timer = setInterval(this.passage.bind(this),1000);
 
       $(".add-word", this.board).on("submit", this.handleSubmit.bind(this));
     }
@@ -63,6 +69,28 @@ class BoggleGame {
       }
   
       $word.val("").focus();
+    }
+    //Timer--
+    showTimer(){
+      $(".timer", this.board).text(this.secs);
+    }
+
+    //show the passage of time in increments of one second visually on the game
+    async passage(){
+      this.secs -=1;
+      this.showTimer();
+      //NEED TO STOP TIMER AT O
+      if(this.secs === 0){
+        clearInterval(this.timer);
+        await this.finalScore();
+      }
+    }
+    
+    //end of game - final score
+    async finalScore(){
+      $(".add-word", this.board).hide();
+      $(".STBOARD", this.board).hide();
+      this.showStatus(`your final score is: ${this.score}`);
     }
   }
   

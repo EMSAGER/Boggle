@@ -23,7 +23,9 @@ class FlaskTests(TestCase):
                 #1. ALWAYS TEST status code first
             self.assertEqual(res.status_code, 200)
             self.assertIn('board', session)
-    
+            self.assertIn(b'Score:', res.data)
+            self.assertIn(b'Timer:', res.data)
+            
     def test_valid_word(self):
         """testing the check_word path by changing the session template --testing valid word"""
         with self.client as client:
@@ -50,7 +52,7 @@ class FlaskTests(TestCase):
         res = self.client.get('/check-word?word=potato')
         self.assertEqual(res.json['result'], 'not-on-board')
 
-    def test_not_word(self):
+    def test_not_english_word(self):
         """testing the check_word path by testing a non English word"""
         with self.client as client:
             with client.session_transaction() as change:
